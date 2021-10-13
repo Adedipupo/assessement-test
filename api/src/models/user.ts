@@ -1,10 +1,10 @@
 import { model, Schema } from 'mongoose';
-import { User } from '../types/types';
+import { IUser } from '../types/types';
 
-const schema = new Schema<User>({
+const schema = new Schema<IUser>({
   username: { type: String, required: true },
   password: { type: String, required: true },
 });
 
 
-export const UserModel = model<User>('Users', schema);
+export const UserModel = model<IUser>('Users', schema);
