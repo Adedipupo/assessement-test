@@ -1,5 +1,6 @@
-import express, { Request, Response } from 'express';
-import usersRoute from './users';
+import express, { Request, Response } from "express";
+import usersRoute from "./users";
+
 const router = express.Router();
 
 /* GET home page. */

@@ -1,15 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 interface IUser {
-    id?: mongoose.Types.ObjectId
-    username: string;
-    password: string;
-    token?: string;
-    isPasswordMatch: (password: string) => boolean;
-
+  id?: mongoose.Types.ObjectId;
+  username: string;
+  password: string;
+  token?: string;
+  isPasswordMatch: (password: string) => boolean;
 }
 
-type ResponseData = Record<string, any> | Record<string, any>[]
-
-
-export {IUser};
+export { IUser };

@@ -12,11 +12,12 @@ UserSchema.pre("save", async function (next) {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
     next();
+    // eslint-disable-next-line no-empty
   } catch (error) {}
 });
 
 UserSchema.methods.isPasswordMatch = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+  return bcrypt.compare(enteredPassword, this.password);
 };
 
 export const UserModel = model<IUser>("Users", UserSchema);
