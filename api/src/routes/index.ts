@@ -1,8 +1,8 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 const router = express.Router();
 
 /* GET home page. */
-router.get('/', (req:Request, res:Response, next:Next) => {
+router.get('/', (req:Request, res:Response) => {
   res.send('index');
 });
 
