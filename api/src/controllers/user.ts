@@ -56,4 +56,4 @@ export const loginUser =  asyncHandler(async function(
         },
       })
     }
-}
+});
