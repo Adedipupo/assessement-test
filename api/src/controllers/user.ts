@@ -46,9 +46,12 @@ export const loginUser = asyncHandler(async function (
 
   if (user && (await user.isPasswordMatch(password))) {
     return res.status(200).json({
+     status: "success",
+     data: { 
       _id: user._id,
       username: user.username,
       password: user.password,
+     }
     });
   }
   return res.status(401).json({

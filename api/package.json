@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "tsc": "tsc -p ./tsconfig.json",
     "start:dev": "nodemon --watch src/ --exec \"yarn serve\" -e ts",
     "serve": "tsc && node ./bin/www",
-    "compile": "tsc",
-    "test": "jest",
-    "clean": "rm -rf dist && mkdir dist",
-    "heroku-postbuild": "yarn clean && yarn serve",
+    "compile": "tsc -p ./tsconfig.json",
+    "test": "jest --runInBand --detectOpenHandles",
+    "clean": "rm -rf daist && mkdir dist",
+    "heroku-postbuild": "yarn clean && yarn compile",
     "lint": "eslint . --ext ts",
     "lint:fix": "eslint . --ext ts --fix"
   },
@@ -63,7 +64,6 @@
     "eslint-plugin-prettier": "^3.4.0",
     "nodemon": "^2.0.7",
     "prettier": "^2.3.0",
-    "supertest": "^6.1.6",
     "typescript": "^4.4.4"
   }
 }
