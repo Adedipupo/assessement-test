@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
-interface User {
+interface IUser {
     id?: mongoose.Types.ObjectId
-    name: string;
+    username: string;
     password: string;
     token?: string;
 
@@ -11,4 +11,4 @@ interface User {
 type ResponseData = Record<string, any> | Record<string, any>[]
 
 
-export { User};
+export {IUser};
