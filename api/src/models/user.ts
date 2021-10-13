@@ -6,5 +6,8 @@ const schema = new Schema<IUser>({
   password: { type: String, required: true },
 });
 
+userSchema.methods.matchPassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword,this.password)
+}
 
 export const UserModel = model<IUser>('Users', schema);

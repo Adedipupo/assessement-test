@@ -36,3 +36,24 @@ export const registerUser = asyncHandler(async function (
     },
   });
 });
+
+export const loginUser =  asyncHandler(async function(
+    req: Request,
+    res: Response
+  ): Promise<Response | void> {
+    
+      const { username,password } = req.body;
+      const user = await UserModel.findOne({ username });
+      if(user) {
+        const data = {
+            username: user.username,
+            password: user.password,
+        };
+        return res.status(200).json({
+        status: "success",
+        data: {
+            ...data,
+        },
+      })
+    }
+}
