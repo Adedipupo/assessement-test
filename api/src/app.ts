@@ -3,8 +3,11 @@ import express, { Request, Response } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import dotenv from 'dotenv';
+import connectDB from './database/DbConnect';
 import indexRouter from './routes/index';
 
+dotenv.config();
 const app = express();
 
 app.use(express.static(path.join(__dirname, '../', 'public')));
@@ -23,6 +26,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1', indexRouter);
+
+connectDB();
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
