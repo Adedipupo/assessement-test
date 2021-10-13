@@ -1,20 +1,38 @@
-import express, { Request, Response,NextFunction } from 'express';
-import asyncHandler from 'express-async-handler';
-import { validateUser } from '../validations/user';
-import { UserModel } from '../models/user';
+import express, { Request, Response, NextFunction } from "express";
+import asyncHandler from "express-async-handler";
+import { validateUser } from "../validations/user";
+import { UserModel } from "../models/user";
 
+export const registerUser = asyncHandler(async function (
+  req: Request,
+  res: Response
+): Promise<Response | void> {
+  const { error } = validateUser(req.body);
+  if (error) {
+    return res.status(400).json({ message: error.message });
+  }
 
+  const { username, password } = req.body;
 
-export const registerUser = asyncHandler(async function (req:Request, res:Response): Promise<Response | void> {
-    const {error} = validateUser(req.body);
-    if (error) {
-        return res.status(400).json({message: "error.message"})
-    }
+  const exist = await UserModel.findOne({ username });
 
-    const {username,password} = req.body;
+  if (exist) {
+    return res.status(409).json({
+      status: "error",
+      data: "User already exist",
+    });
+  }
 
-    return res.status(200).json({
-        status: 'success',
-        data: req.body
-    })
-})
+  const newUser = await new UserModel({
+    username,
+    password,
+  });
+  await newUser.save();
+
+  return res.status(200).json({
+    status: "success",
+    data: {
+      user: newUser,
+    },
+  });
+});
