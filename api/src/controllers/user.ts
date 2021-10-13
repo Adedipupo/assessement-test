@@ -44,16 +44,18 @@ export const loginUser =  asyncHandler(async function(
     
       const { username,password } = req.body;
       const user = await UserModel.findOne({ username });
-      if(user) {
-        const data = {
-            username: user.username,
-            password: user.password,
-        };
+   
+      if (user && (await user.isPasswordMatch(password))) {
         return res.status(200).json({
-        status: "success",
-        data: {
-            ...data,
-        },
-      })
-    }
+          _id: user._id,
+          username: user.username,
+          password: user.password,
+        })
+      } else {
+        return res.status(401).json({
+          status: "error",
+          data: "User does not exist"
+        })
+      }
+      
 });
