@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import { validateUser } from "../validations/user";
 import { UserModel } from "../models/user";
+import mongoose from "mongoose";
 
 export const registerUser = asyncHandler(async function (
   req: Request,
@@ -56,6 +57,22 @@ export const loginUser = asyncHandler(async function (
   }
   return res.status(401).json({
     status: "error",
-    data: "User does not exist",
+    data: "Invalid Credentials",
   });
+});
+
+export const getUser = asyncHandler(async function (
+  req: Request,
+  res: Response
+): Promise<Response | void> {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(400).send("Invalid Id");
+  }
+  const user = await UserModel.findById(id).select("-password");
+  if (user) {
+    res.status(200).json(user);
+  } else {
+    res.status(404).send("User not found");
+  }
 });
