@@ -13,9 +13,9 @@ export const registerUser = asyncHandler(async function (
     return res.status(400).json({ message: error.message });
   }
 
-  const { username, password } = req.body;
+  const { name, email, password } = req.body;
 
-  const exist = await UserModel.findOne({ username });
+  const exist = await UserModel.findOne({ email });
 
   if (exist) {
     return res.status(409).json({
@@ -25,7 +25,8 @@ export const registerUser = asyncHandler(async function (
   }
 
   const newUser = await new UserModel({
-    username,
+    name,
+    email,
     password,
   });
   await newUser.save();
@@ -42,16 +43,16 @@ export const loginUser = asyncHandler(async function (
   req: Request,
   res: Response
 ): Promise<Response | void> {
-  const { username, password } = req.body;
-  const user = await UserModel.findOne({ username });
+  const { email, password } = req.body;
+  const user = await UserModel.findOne({ email });
 
   if (user && (await user.isPasswordMatch(password))) {
     return res.status(200).json({
       status: "success",
       data: {
         _id: user._id,
-        username: user.username,
-        password: user.password,
+        name: user.name,
+        email: user.email,
       },
     });
   }
@@ -61,18 +62,34 @@ export const loginUser = asyncHandler(async function (
   });
 });
 
-export const getUser = asyncHandler(async function (
+// export const getUser = asyncHandler(async function (
+//   req: Request,
+//   res: Response
+// ): Promise<Response | void> {
+//   const { id } = req.params;
+//   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+//     res.status(400).send("Invalid Id");
+//   }
+//   const user = await UserModel.findById(id).select("-password");
+//   if (user) {
+//     res.status(200).json(user);
+//   } else {
+//     res.status(404).send("User not found");
+//   }
+// });
+
+export const getAllUser = asyncHandler(async function (
   req: Request,
   res: Response
 ): Promise<Response | void> {
-  const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    res.status(400).send("Invalid Id");
-  }
-  const user = await UserModel.findById(id).select("-password");
-  if (user) {
-    res.status(200).json(user);
+  const user = await UserModel.find();
+
+  if (!user) {
+    res.status(400).send("Not Found");
   } else {
-    res.status(404).send("User not found");
+    res.status(200).json({
+      status: "success",
+      data: user,
+    });
   }
 });
