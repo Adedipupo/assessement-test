@@ -5,8 +5,12 @@ interface IUser {
   name: string;
   email: string;
   password: string;
-  token?: string;
   isPasswordMatch: (password: string) => boolean;
+}
+export interface REQUESTUSER {
+  _id?: string;
+  id?: string;
+  token?: string;
 }
 
 export { IUser };

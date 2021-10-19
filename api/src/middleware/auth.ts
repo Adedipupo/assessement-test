@@ -18,10 +18,13 @@ export const verifyToken = asyncHandler(async function (
         jwt.verify(token, process.env.JWT_SECRET_KEY as string)
       );
       const user = await UserModel.findById(decoded.id);
+      if (!user) {
+        return res.send("getat");
+      }
       req.user = user;
       return next();
     } catch (error) {
-      res.status(401).send("Bearer token is missing");
+      return res.status(401).send("Bearer token is missing");
     }
   } else {
     return res.status(404).send("Not Authorised, invalid token");
