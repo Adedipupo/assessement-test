@@ -62,21 +62,21 @@ export const loginUser = asyncHandler(async function (
   });
 });
 
-// export const getUser = asyncHandler(async function (
-//   req: Request,
-//   res: Response
-// ): Promise<Response | void> {
-//   const { id } = req.params;
-//   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-//     res.status(400).send("Invalid Id");
-//   }
-//   const user = await UserModel.findById(id).select("-password");
-//   if (user) {
-//     res.status(200).json(user);
-//   } else {
-//     res.status(404).send("User not found");
-//   }
-// });
+export const getUser = asyncHandler(async function (
+  req: Request,
+  res: Response
+): Promise<Response | void> {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(400).send("Invalid Id");
+  }
+  const user = await UserModel.findById(id).select("-password");
+  if (user) {
+    res.status(200).json(user);
+  } else {
+    res.status(404).send("User not found");
+  }
+});
 
 export const getAllUser = asyncHandler(async function (
   req: Request,
