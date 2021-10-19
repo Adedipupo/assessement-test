@@ -1,7 +1,7 @@
 import express from "express";
 import {
   getAllUser,
-  // getUser,
+  getUser,
   loginUser,
   registerUser,
 } from "../controllers/user";
@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-// router.get("/:id", getUser);
 router.get("/allusers", getAllUser);
+router.get("/:id", getUser);
 
 export default router;
